@@ -35,6 +35,9 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // Node-Runtime statt Edge: umgeht MIDDLEWARE_INVOCATION_FAILED durch
+  // Edge-Adapter-Regressionen in Vercels Build-Pipeline bei Next 15.5.x
+  runtime: "nodejs",
   matcher: [
     "/((?!_next/static|_next/image|favicon\\.ico|icons/|manifest\\.webmanifest|sw\\.js|api/check).*)",
   ],

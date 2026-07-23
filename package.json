@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "description": "Katzenfütterungs-Tracker für die Familie",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
