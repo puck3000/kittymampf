@@ -18,11 +18,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Ungültige Subscription" }, { status: 400 });
   }
 
-  const subs = await readSubscriptions();
-  const others = subs.filter((s) => s.endpoint !== sub.endpoint);
-  await writeSubscriptions([...others, sub]);
-
-  return NextResponse.json({ ok: true, count: others.length + 1 });
+  try {
+    const subs = await readSubscriptions();
+    const others = subs.filter((s) => s.endpoint !== sub.endpoint);
+    await writeSubscriptions([...others, sub]);
+    return NextResponse.json({ ok: true, count: others.length + 1 });
+  } catch (err) {
+    console.error("Subscription speichern fehlgeschlagen:", err);
+    return NextResponse.json(
+      { error: `Speichern fehlgeschlagen: ${(err as Error).message}` },
+      { status: 500 }
+    );
+  }
 }
 
 export async function DELETE(request: NextRequest) {
@@ -36,8 +43,15 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "endpoint fehlt" }, { status: 400 });
   }
 
-  const subs = await readSubscriptions();
-  await writeSubscriptions(subs.filter((s) => s.endpoint !== body.endpoint));
-
-  return NextResponse.json({ ok: true });
+  try {
+    const subs = await readSubscriptions();
+    await writeSubscriptions(subs.filter((s) => s.endpoint !== body.endpoint));
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("Subscription entfernen fehlgeschlagen:", err);
+    return NextResponse.json(
+      { error: `Speichern fehlgeschlagen: ${(err as Error).message}` },
+      { status: 500 }
+    );
+  }
 }

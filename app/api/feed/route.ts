@@ -19,12 +19,19 @@ export async function POST(request: NextRequest) {
   }
   const done = body.done !== false;
 
-  const state = await readState();
-  state.meals[meal.id as MealId] = {
-    doneAt: done ? new Date().toISOString() : null,
-    notified: done ? state.meals[meal.id].notified : false,
-  };
-  await writeState(state);
-
-  return NextResponse.json({ state });
+  try {
+    const state = await readState();
+    state.meals[meal.id as MealId] = {
+      doneAt: done ? new Date().toISOString() : null,
+      notified: done ? state.meals[meal.id].notified : false,
+    };
+    await writeState(state);
+    return NextResponse.json({ state });
+  } catch (err) {
+    console.error("Speichern fehlgeschlagen:", err);
+    return NextResponse.json(
+      { error: `Speichern fehlgeschlagen: ${(err as Error).message}` },
+      { status: 500 }
+    );
+  }
 }

@@ -45,6 +45,11 @@ async function readJson<T>(pathname: string): Promise<T | null> {
 }
 
 async function writeJson(pathname: string, data: unknown): Promise<void> {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    throw new Error(
+      "BLOB_READ_WRITE_TOKEN fehlt oder ist leer – Blob Store in Vercel verbinden und neu deployen."
+    );
+  }
   await put(pathname, JSON.stringify(data), {
     access: "public",
     contentType: "application/json",
