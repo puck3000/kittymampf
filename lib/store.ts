@@ -1,4 +1,4 @@
-import { head, put } from "@vercel/blob";
+import { get, put } from "@vercel/blob";
 import { getMeals, todayInZurich, type MealId } from "./config";
 
 export interface MealState {
@@ -27,35 +27,31 @@ function freshState(): DayState {
   return { date: todayInZurich(), meals };
 }
 
-/**
- * Liest ein JSON-Blob. Der Cache-Buster (?v=uploadedAt) umgeht den
- * Blob-CDN-Cache, damit nach einem Überschreiben nie veraltete Daten kommen.
- */
-async function readJson<T>(pathname: string): Promise<T | null> {
-  let blob;
-  try {
-    blob = await head(pathname);
-  } catch {
-    return null; // Blob existiert noch nicht
-  }
-  const url = `${blob.url}${blob.url.includes("?") ? "&" : "?"}v=${blob.uploadedAt.getTime()}`;
-  const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) return null;
-  return (await res.json()) as T;
-}
-
-async function writeJson(pathname: string, data: unknown): Promise<void> {
+function ensureToken(): void {
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
     throw new Error(
       "BLOB_READ_WRITE_TOKEN fehlt oder ist leer – Blob Store in Vercel verbinden und neu deployen."
     );
   }
+}
+
+/** Liest ein JSON-Blob direkt aus dem Origin-Storage (kein CDN-Cache, nie veraltet). */
+async function readJson<T>(pathname: string): Promise<T | null> {
+  ensureToken();
+  const result = await get(pathname, { access: "private", useCache: false });
+  if (!result || result.statusCode !== 200) {
+    return null; // Blob existiert noch nicht
+  }
+  return (await new Response(result.stream).json()) as T;
+}
+
+async function writeJson(pathname: string, data: unknown): Promise<void> {
+  ensureToken();
   await put(pathname, JSON.stringify(data), {
-    access: "public",
+    access: "private",
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,
-    cacheControlMaxAge: 60,
   });
 }
 

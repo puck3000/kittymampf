@@ -31,8 +31,9 @@ Die „bis“-Zeiten lösen den Alarm aus und sind per `FEED_TIMES` konfigurierb
 1. Repo in [Vercel](https://vercel.com/new) importieren (Framework: Next.js,
    keine weiteren Einstellungen nötig)
 2. Im Projekt unter **Storage → Create Database → Blob** einen Blob Store
-   anlegen und mit dem Projekt verbinden. Dadurch wird
-   `BLOB_READ_WRITE_TOKEN` automatisch gesetzt.
+   (Zugriff „Private“, der Standard) anlegen und mit dem Projekt verbinden.
+   Dadurch wird `BLOB_READ_WRITE_TOKEN` automatisch gesetzt. Danach einmal
+   neu deployen, damit das Token im Deployment landet.
 
 ### 2. VAPID-Keys generieren
 
