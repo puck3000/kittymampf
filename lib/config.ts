@@ -36,7 +36,7 @@ export function getMeals(): MealDef[] {
   return [
     {
       id: "breakfast",
-      label: "Frühstück",
+      label: "Zmorge",
       emoji: "🌅",
       food: "Feuchtfutter – ½ Packung pro Katze",
       dueMinutes: times[0],

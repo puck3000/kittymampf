@@ -9,7 +9,7 @@ eine Push-Benachrichtigung.
 
 | Mahlzeit | bis | Futter |
 |---|---|---|
-| Frühstück | 07:00 | Feuchtfutter – ½ Packung pro Katze |
+| Zmorge | 07:00 | Feuchtfutter – ½ Packung pro Katze |
 | Zmittag | 08:00 | Trockenfutter – 1 Löffel pro Katze |
 | Zvieri | 17:00 | Suppe oder Feuchtfutter – ½ Packung pro Katze |
 | Znacht | 21:00 | Trockenfutter – 1 Löffel pro Katze |
