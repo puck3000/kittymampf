@@ -33,7 +33,7 @@ async function runCheck(request: NextRequest) {
     if (isOverdue && !mealState.doneAt && !mealState.notified) {
       const delivered = await sendToAll({
         title: `🐱 ${meal.label} ist überfällig!`,
-        body: `Die Katzen warten seit ${formatMinutes(meal.dueMinutes)} auf ihr ${meal.label}. Bitte füttern und in der App abhaken.`,
+        body: `Die Katzen hätten bis ${formatMinutes(meal.dueMinutes)} ihr ${meal.label} bekommen sollen (${meal.food}). Bitte füttern und in der App abhaken.`,
       });
       mealState.notified = true;
       notifications.push(`${meal.id} (${delivered} zugestellt)`);

@@ -1,19 +1,23 @@
 export const TIMEZONE = "Europe/Zurich";
 
-export type MealId = "breakfast" | "lunch" | "dinner";
+export type MealId = "breakfast" | "lunch" | "dinner1" | "dinner2";
 
 export interface MealDef {
   id: MealId;
   label: string;
   emoji: string;
-  /** Fällige Uhrzeit in Minuten seit Mitternacht (Europe/Zurich) */
+  /** Was es gibt, inkl. Portionsangabe */
+  food: string;
+  /** Deadline („bis“-Zeit) in Minuten seit Mitternacht (Europe/Zurich) – danach wird alarmiert */
   dueMinutes: number;
 }
 
-const DEFAULT_FEED_TIMES = "06:00,12:00,18:00";
+const DEFAULT_FEED_TIMES = "07:00,08:00,17:00,21:00";
 
-/** Minuten, die eine Fütterung überfällig sein darf, bevor benachrichtigt wird */
-export const OVERDUE_GRACE_MINUTES = 60;
+/**
+ * Die „bis“-Zeiten lösen den Alarm direkt aus – keine zusätzliche Karenzzeit.
+ */
+export const OVERDUE_GRACE_MINUTES = 0;
 
 function parseTimeToMinutes(time: string): number {
   const match = /^(\d{1,2}):(\d{2})$/.exec(time.trim());
@@ -26,13 +30,38 @@ function parseTimeToMinutes(time: string): number {
 export function getMeals(): MealDef[] {
   const raw = process.env.FEED_TIMES || DEFAULT_FEED_TIMES;
   const times = raw.split(",").map(parseTimeToMinutes);
-  if (times.length !== 3) {
-    throw new Error(`FEED_TIMES muss genau 3 Zeiten enthalten, z.B. "${DEFAULT_FEED_TIMES}"`);
+  if (times.length !== 4) {
+    throw new Error(`FEED_TIMES muss genau 4 Zeiten enthalten, z.B. "${DEFAULT_FEED_TIMES}"`);
   }
   return [
-    { id: "breakfast", label: "Frühstück", emoji: "🌅", dueMinutes: times[0] },
-    { id: "lunch", label: "Mittag", emoji: "☀️", dueMinutes: times[1] },
-    { id: "dinner", label: "Znacht", emoji: "🌙", dueMinutes: times[2] },
+    {
+      id: "breakfast",
+      label: "Frühstück",
+      emoji: "🌅",
+      food: "Feuchtfutter – ½ Packung pro Katze",
+      dueMinutes: times[0],
+    },
+    {
+      id: "lunch",
+      label: "Zmittag",
+      emoji: "☀️",
+      food: "Trockenfutter – 1 Löffel pro Katze",
+      dueMinutes: times[1],
+    },
+    {
+      id: "dinner1",
+      label: "Znacht I",
+      emoji: "🌆",
+      food: "Suppe oder Feuchtfutter – ½ Packung pro Katze",
+      dueMinutes: times[2],
+    },
+    {
+      id: "dinner2",
+      label: "Znacht II",
+      emoji: "🌙",
+      food: "Trockenfutter – 1 Löffel pro Katze",
+      dueMinutes: times[3],
+    },
   ];
 }
 

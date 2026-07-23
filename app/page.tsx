@@ -2,12 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-type MealId = "breakfast" | "lunch" | "dinner";
+type MealId = "breakfast" | "lunch" | "dinner1" | "dinner2";
 
 interface MealDef {
   id: MealId;
   label: string;
   emoji: string;
+  food: string;
   dueMinutes: number;
 }
 
@@ -197,11 +198,11 @@ export default function Home() {
         if (done) {
           statusText = `Gefüttert um ${formatTime(mealState.doneAt!)} ✅`;
         } else if (overdue) {
-          statusText = `Überfällig seit ${formatMinutes(meal.dueMinutes)}! 🔴`;
+          statusText = `Überfällig (bis ${formatMinutes(meal.dueMinutes)})! 🔴`;
         } else if (pendingLater) {
-          statusText = `Fällig um ${formatMinutes(meal.dueMinutes)}`;
+          statusText = `Bis ${formatMinutes(meal.dueMinutes)}`;
         } else {
-          statusText = `Ausstehend (fällig ${formatMinutes(meal.dueMinutes)}) ⏳`;
+          statusText = `Bis ${formatMinutes(meal.dueMinutes)} ⏳`;
         }
 
         return (
@@ -213,6 +214,7 @@ export default function Home() {
             <div className="meal-info">
               <h2>{meal.label}</h2>
               <div className="meal-status">{statusText}</div>
+              <div className="meal-food">{meal.food}</div>
             </div>
             {done ? (
               <button
@@ -254,8 +256,8 @@ export default function Home() {
           </p>
         )}
         <p className="hint">
-          Wird eine Fütterung mehr als 1 Stunde nicht abgehakt, bekommen alle mit
-          aktivierten Benachrichtigungen eine Push-Nachricht.
+          Wird eine Fütterung bis zur angegebenen Zeit nicht abgehakt, bekommen alle
+          mit aktivierten Benachrichtigungen eine Push-Nachricht.
         </p>
       </section>
     </main>

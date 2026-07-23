@@ -1,9 +1,20 @@
 # 🐱 Kittymampf
 
 Haben die Katzen heute schon gefressen? Eine kleine PWA für Familie und
-Stellvertreter: Frühstück, Mittag und Znacht abhaken – und wenn eine Fütterung
-mehr als eine Stunde überfällig ist, bekommen alle mit installierter App eine
-Push-Benachrichtigung.
+Stellvertreter: die Fütterungen des Tages abhaken – und wird eine Fütterung
+bis zu ihrer „bis“-Zeit nicht erledigt, bekommen alle mit installierter App
+eine Push-Benachrichtigung.
+
+## Fressplan
+
+| Mahlzeit | bis | Futter |
+|---|---|---|
+| Frühstück | 07:00 | Feuchtfutter – ½ Packung pro Katze |
+| Zmittag | 08:00 | Trockenfutter – 1 Löffel pro Katze |
+| Znacht I | 17:00 | Suppe oder Feuchtfutter – ½ Packung pro Katze |
+| Znacht II | 21:00 | Trockenfutter – 1 Löffel pro Katze |
+
+Die „bis“-Zeiten lösen den Alarm aus und sind per `FEED_TIMES` konfigurierbar.
 
 - **Kein Datenbank-Server**: Der Zustand liegt als JSON-Dateien in
   [Vercel Blob](https://vercel.com/docs/storage/vercel-blob)
@@ -42,7 +53,7 @@ In Vercel unter **Settings → Environment Variables** (siehe auch
 | `VAPID_PRIVATE_KEY` | Private Key aus Schritt 2 |
 | `VAPID_SUBJECT` | `mailto:deine@mail.ch` |
 | `CRON_SECRET` | Langer Zufallswert, z.B. `openssl rand -hex 32` |
-| `FEED_TIMES` | Optional, Standard `06:00,12:00,18:00` |
+| `FEED_TIMES` | Optional, Standard `07:00,08:00,17:00,21:00` |
 
 Danach einmal neu deployen, damit die Variablen aktiv werden.
 
@@ -75,9 +86,9 @@ dann automatisch alle ~15 Minuten. Zum Testen kann er unter **Actions →
 - Der Tageszustand (`state.json`) und die Push-Subscriptions
   (`subscriptions.json`) liegen im Vercel Blob Store. Beim ersten Zugriff
   nach Mitternacht (Europe/Zurich) wird der Tag automatisch zurückgesetzt.
-- `/api/check` prüft: Ist eine Mahlzeit mehr als 60 Minuten nach ihrer
-  Fälligkeit weder abgehakt noch benachrichtigt, geht eine Push-Nachricht an
-  alle Subscriptions (genau eine pro Mahlzeit und Tag). Der Endpunkt ist durch
+- `/api/check` prüft: Ist eine Mahlzeit nach ihrer „bis“-Zeit weder abgehakt
+  noch benachrichtigt, geht eine Push-Nachricht an alle Subscriptions
+  (genau eine pro Mahlzeit und Tag). Der Endpunkt ist durch
   `Authorization: Bearer $CRON_SECRET` geschützt, nicht durch Basic Auth.
 - Alle anderen Routen stehen hinter Basic Auth
   ([middleware.ts](middleware.ts)). Ausgenommen sind nur Manifest, Service

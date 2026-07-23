@@ -106,6 +106,12 @@ header.app-header .date {
   font-weight: 600;
 }
 
+.meal-food {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+
 button {
   font: inherit;
   cursor: pointer;
