@@ -1,0 +1,175 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #fffbeb;
+  --card: #ffffff;
+  --text: #1c1917;
+  --muted: #78716c;
+  --accent: #f59e0b;
+  --done: #16a34a;
+  --done-bg: #f0fdf4;
+  --overdue: #dc2626;
+  --overdue-bg: #fef2f2;
+  --border: #e7e5e4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1917;
+    --card: #292524;
+    --text: #fafaf9;
+    --muted: #a8a29e;
+    --done-bg: #14532d33;
+    --overdue-bg: #7f1d1d33;
+    --border: #44403c;
+  }
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+header.app-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+header.app-header h1 {
+  font-size: 1.8rem;
+}
+
+header.app-header .date {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+.meal-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: background 0.2s;
+}
+
+.meal-card.done {
+  background: var(--done-bg);
+  border-color: var(--done);
+}
+
+.meal-card.overdue {
+  background: var(--overdue-bg);
+  border-color: var(--overdue);
+}
+
+.meal-emoji {
+  font-size: 2rem;
+}
+
+.meal-info {
+  flex: 1;
+}
+
+.meal-info h2 {
+  font-size: 1.15rem;
+}
+
+.meal-status {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+
+.meal-card.done .meal-status {
+  color: var(--done);
+}
+
+.meal-card.overdue .meal-status {
+  color: var(--overdue);
+  font-weight: 600;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.feed-button {
+  background: var(--accent);
+  color: #fff;
+  white-space: nowrap;
+}
+
+.undo-button {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  font-weight: 400;
+  font-size: 0.85rem;
+  padding: 0.45rem 0.75rem;
+}
+
+.notify-section {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.notify-button {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  width: 100%;
+}
+
+.notify-button.active {
+  border-color: var(--done);
+  color: var(--done);
+}
+
+.hint {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.error {
+  background: var(--overdue-bg);
+  color: var(--overdue);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.loading {
+  text-align: center;
+  color: var(--muted);
+  padding: 3rem 0;
+}

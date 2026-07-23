@@ -1,0 +1,17 @@
+name: Überfälligkeits-Check
+
+on:
+  schedule:
+    # Alle 15 Minuten (GitHub-Cron ist nicht minutengenau, das reicht aber locker)
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: API-Endpunkt aufrufen
+        run: |
+          curl -fsS \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.APP_URL }}/api/check"

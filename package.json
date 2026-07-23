@@ -1,0 +1,26 @@
+{
+  "name": "kittymampf",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Katzenfütterungs-Tracker für die Familie",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@vercel/blob": "^1.1.1",
+    "next": "^15.4.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/web-push": "^3.6.4",
+    "typescript": "^5.8.3"
+  }
+}
