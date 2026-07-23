@@ -50,14 +50,14 @@ export function getMeals(): MealDef[] {
     },
     {
       id: "dinner1",
-      label: "Znacht I",
+      label: "Zvieri",
       emoji: "🌆",
       food: "Suppe oder Feuchtfutter – ½ Packung pro Katze",
       dueMinutes: times[2],
     },
     {
       id: "dinner2",
-      label: "Znacht II",
+      label: "Znacht",
       emoji: "🌙",
       food: "Trockenfutter – 1 Löffel pro Katze",
       dueMinutes: times[3],

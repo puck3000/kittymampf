@@ -11,8 +11,8 @@ eine Push-Benachrichtigung.
 |---|---|---|
 | Frühstück | 07:00 | Feuchtfutter – ½ Packung pro Katze |
 | Zmittag | 08:00 | Trockenfutter – 1 Löffel pro Katze |
-| Znacht I | 17:00 | Suppe oder Feuchtfutter – ½ Packung pro Katze |
-| Znacht II | 21:00 | Trockenfutter – 1 Löffel pro Katze |
+| Zvieri | 17:00 | Suppe oder Feuchtfutter – ½ Packung pro Katze |
+| Znacht | 21:00 | Trockenfutter – 1 Löffel pro Katze |
 
 Die „bis“-Zeiten lösen den Alarm aus und sind per `FEED_TIMES` konfigurierbar.
 
